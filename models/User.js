@@ -1,20 +1,26 @@
 var mongoose = require('mongoose')
 
 var UserSchema = new mongoose.Schema({
-  username: {
+  userid: {
   	type: String,
   	unique: true,
   	required: true,
   	trim: true
   },
-  password: {
+  username: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  type: { // teacher, student, or administrator
   	type: String,
   	required: true
   },
-  type: {
-  	type: String,
-  	required: true
-  }
+  homeclass: { // 所在班级
+    type: id, //classid
+    required: true,
+    trim: true
+  },
 }, {timestamps: true});
 
 

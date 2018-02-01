@@ -17,7 +17,7 @@ var UserSchema = new mongoose.Schema({
   	required: true
   },
   homeclass: { // 所在班级
-    type: id, //classid
+    type: Number, //classid
     required: true,
     trim: true
   },

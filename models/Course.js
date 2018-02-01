@@ -2,7 +2,7 @@ var mongoose = require('mongoose')
 
 var CourseSchema = new mongoose.Schema({ // 班级
   courseid: {
-    type: int,
+    type: Number,
     unique: true,
     required: true,
     trim: true

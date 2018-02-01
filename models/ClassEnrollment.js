@@ -2,7 +2,7 @@ var mongoose = require('mongoose')
 
 var ClassEnrollmentSchema = new mongoose.Schema({ // 班级
   classid: {
-    type: int,
+    type: Number,
     required: true,
     trim: true
   },

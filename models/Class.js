@@ -2,7 +2,7 @@ var mongoose = require('mongoose')
 
 var ClassSchema = new mongoose.Schema({ // 班级
   classid: {
-  	type: int,
+  	type: Number,
   	unique: true,
   	required: true,
   	trim: true
@@ -13,7 +13,7 @@ var ClassSchema = new mongoose.Schema({ // 班级
     trim: true
   },
   grade: {
-  	type: int,
+  	type: Number,
   	required: true
   },
   teacher: { // 班主任

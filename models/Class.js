@@ -1,25 +1,24 @@
 var mongoose = require('mongoose')
 
 var ClassSchema = new mongoose.Schema({ // 班级
-  classid: {
-  	type: Number,
-  	unique: true,
-  	required: true,
-  	trim: true
-  },
   classname: {
     type: String,
     required: true,
     trim: true
   },
-  grade: {
-  	type: Number,
+  teacher: { // 班主任
+  	type: mongoose.Schema.Types.ObjectId,
+    ref: 'Teacher',
   	required: true
   },
-  teacher: { // 班主任
-  	type: String, //userid
-  	required: true
-  }
+  announcements: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Announcement'
+  }],
+  questions: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Question'
+  }]
 }, {timestamps: false});
 
 

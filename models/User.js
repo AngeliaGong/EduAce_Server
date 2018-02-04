@@ -1,26 +1,21 @@
 var mongoose = require('mongoose')
 
 var UserSchema = new mongoose.Schema({
-  userid: {
-  	type: String,
+  account: {
+  	type: mongoose.Schema.Types.ObjectId,
+    ref: 'Account',
   	unique: true,
   	required: true,
-  	trim: true
   },
   username: {
     type: String,
     required: true,
     trim: true
   },
-  type: { // teacher, student, or administrator
-  	type: String,
-  	required: true
-  },
-  homeclass: { // 所在班级
-    type: Number, //classid
-    required: true,
+  contactInfo: { // not used for now
+    type: String,
     trim: true
-  },
+  }
 }, {timestamps: true});
 
 

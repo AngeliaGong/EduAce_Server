@@ -1,0 +1,69 @@
+Account {
+	userid:			String,
+	password:		String,
+	type:			String
+}
+
+User {
+	account: 		Account,
+	username:		String,
+	contactInfo:	String
+}
+
+Student {
+	user:			'User',
+	grade:			Number,
+	class:			'Class',
+	courses:		['Course']
+}
+
+Teacher {
+	user:			'User',
+	office:			String,
+	class:			'Class',
+	courses:		['Course']
+}
+
+Admin {
+	user:			'User'
+}
+
+Class {
+	classname:		String,
+	teacher:		'Teacher',
+	announcements:	['Announcement'],
+	questions:		['Question']
+}
+
+Course {
+	coursename:		String,
+	teacher:		'Teacher',
+	schedule: 		[{
+						day:			Number,
+						startHour:		Number,
+						startMinute:	Number,
+						endHour:		Number,
+						endMinute:		Number
+					}],
+	announcements:	['Announcement'],
+	questions:		['Question']
+}
+
+Announcement {
+	title: 			String,
+	content:  		String,
+  	isPublic: 		Boolean,
+ 	madeby:			'Teacher',
+}
+
+Question {
+	title:			String,
+	content:		String,
+	askedby:		'User',
+	answers:		['Answer']
+}
+
+Answer {
+	madeby:			'User',
+	content:		String
+}

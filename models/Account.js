@@ -1,6 +1,6 @@
 var mongoose = require('mongoose')
 
-var UserLoginSchema = new mongoose.Schema({
+var AccountSchema = new mongoose.Schema({
   userid: {
   	type: String,
   	unique: true,
@@ -18,5 +18,5 @@ var UserLoginSchema = new mongoose.Schema({
 }, {timestamps: true});
 
 
-var UserLogin = mongoose.model('UserLogin', UserLoginSchema)
-module.exports = UserLogin
+var Account = mongoose.model('Account', AccountSchema)
+module.exports = Account

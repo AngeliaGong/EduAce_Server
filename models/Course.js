@@ -1,29 +1,56 @@
 var mongoose = require('mongoose')
 
 var CourseSchema = new mongoose.Schema({ // 班级
-  courseid: {
-    type: Number,
-    unique: true,
-    required: true,
-    trim: true
-  },
   coursename: {
     type: String,
     required: true,
     trim: true
   },
   teacher: { // 班主任
-    type: String, //userid
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Teacher'
     required: true
   },
-  startTime: {
-    type: Date // only interested in time
-    required: false // for now.. useful if adding a schedule table feature.
-  },
-  endTime: {
-    type: Date //only interested in time
-    required: false // for now.. useful if adding a schedule table feature.
-  }
+  schedule: [{
+    day: {
+      type: Number,
+      reuired: true,
+      min: 1,
+      max: 7,
+    },
+    startHour: {
+      type: Number,
+      required: true,
+      min: 0,
+      max: 23,
+    },
+    startMinute: {
+      type: Number,
+      default: 0
+      min: 0,
+      max: 59
+    },
+    endHour: {
+      type: Number,
+      required: true,
+      min: 0,
+      max: 23,
+    },
+    endtMinute: {
+      type: Number,
+      default: 0
+      min: 0,
+      max: 59
+    },
+  }],
+  announcements: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Announcement'
+  }]
+  questions: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Question'
+  }]
 }, {timestamps: false});
 
 

@@ -3,23 +3,23 @@
 POST: https://eduace.herokuapp.com/api/register/student
 request body (JSON): 
 {
-	userid: "...",
-	password: "..."
-	grade: "..."
+	"userid": "...",
+	"password": "..."
+	"grade": ...
 }
 
 POST: https://eduace.herokuapp.com/api/register/teacher
 request body (JSON):
 {
-	userid: "..."
-	password: "..."
+	"userid": "..."
+	"password": "..."
 }
 
 POST: https://eduace.herokuapp.com/api/register/admin
 request body (JSON):
 {
-	userid: "..."
-	password: "..."
+	"userid": "..."
+	"password": "..."
 }
 
 ====================== LOGIN ======================
@@ -27,22 +27,22 @@ request body (JSON):
 POST: https://eduace.herokuapp.com/api/login/student
 request body (JSON): 
 {
-	userid: "teststudent",
-	password: "gaoshiqing666!"
+	"userid": "teststudent",
+	"password": "gaoshiqing666!"
 }
 
 POST: https://eduace.herokuapp.com/api/login/teacher
 request body (JSON):
 {
-	userid: "testteacher"
-	password: "gaoshiqing666!"
+	"userid": "testteacher"
+	"password": "gaoshiqing666!"
 }
 
 POST: https://eduace.herokuapp.com/api/login/admin
 request body (JSON):
 {
-	userid: "testadmin"
-	password: "gaoshiqing666!"
+	"userid": "testadmin"
+	"password": "gaoshiqing666!"
 }
 
 ==================== AUTH TEST ====================

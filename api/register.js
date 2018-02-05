@@ -9,13 +9,15 @@ module.exports = (app) => {
 	// userid, password, type (student/teacher/admin), same as login
 	app.post('/api/register/student', (req, res) => {
 		// requirement reinforcement
-		if (!(req.body.userid && req.body.password)) {
+		if (!(req.body.userid && req.body.password && req.body.grade)) {
 			return res.status(400).send('Missing parameters.')
 		} else if (req.body.password.length < 7) {
 			return res.status(400).send ('Password cannot be less than 7 characters.')
 		} else if (req.body.userid.length < 3) {
 			return res.status(400).send ('Username cannot be less than 3 characters.')
-		} 
+		} else if (req.body.grade < 0 || req.body.grade > 12) {
+			return res.status(400).send ('Grade must be between 1 and 12')
+		}
 
 		// create new account based on request body paramters
 		var account = new Account({

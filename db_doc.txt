@@ -1,0 +1,5 @@
+mongo "mongodb://eduace-shard-00-00-qzaj2.mongodb.net:27017,eduace-shard-00-01-qzaj2.mongodb.net:27017,eduace-shard-00-02-qzaj2.mongodb.net:27017/test?replicaSet=EduAce-shard-0" --ssl --authenticationDatabase admin --username gsq_projectteam --password RBRMA5d7ekZ3dVR6
+
+help
+
+db.help()

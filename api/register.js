@@ -3,6 +3,7 @@ const User = require('../models/User')
 const Student = require('../models/Student')
 const Teacher = require('../models/Teacher')
 const Admin = require('../models/Admin')
+const jwt = require('jsonwebtoken')
 
 module.exports = (app) => {
 	// register requires HTTP post request with json parameters 
@@ -61,7 +62,10 @@ module.exports = (app) => {
 								return res.status(401).send(err.message)
 							} else {
 								console.log ('Student created successfully.')
-								return res.status(200).send({account, user, student})
+
+								return jwt.sign({student}, 'secretkey', {expiresIn: '3d'}, (err,token) => {
+									res.status(200).json({student, user, account, token})
+								})
 							}
 						})
 					}
@@ -121,7 +125,9 @@ module.exports = (app) => {
 								return res.status(401).send(err.message)
 							} else {
 								console.log ('Teacher created successfully.')
-								return res.status(200).send(account, user, teacher)
+								return jwt.sign({teacher}, 'secretkey', {expiresIn: '3d'}, (err,token) => {
+									res.status(200).json({teacher, user, account, token})
+								})
 							}
 						})
 					}
@@ -180,7 +186,9 @@ module.exports = (app) => {
 								return res.status(401).send(err.message)
 							} else {
 								console.log ('Admin created successfully.')
-								return res.status(200).send(account, user, admin)
+								return jwt.sign({admin}, 'secretkey', {expiresIn: '3d'}, (err,token) => {
+									res.status(200).json({admin, user, account, token})
+								})
 							}
 						})
 					}

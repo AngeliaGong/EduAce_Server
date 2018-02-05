@@ -19,6 +19,7 @@ require('./api/root')(app);
 require('./api/register')(app);
 require('./api/login')(app);
 require('./api/authtest')(app);
+require('./api/remove_user')(app);
 
 // listen to port
 var port = process.env.PORT || 8080;

@@ -6,38 +6,6 @@ const Admin = require('../models/Admin')
 const jwt = require('jsonwebtoken')
 
 module.exports = (app) => {
-	// // OUT OF DATE
-	// app.post('/api/login', (req, res)=> { 
-	// 	// if any parameter is missing (undefined), return 400.
-	// 	if (!(req.body.userid && req.body.password && req.body.type)) {
-	// 		return res.status(400).send('Missing parameters.')
-	// 	}
-
-	// 	// else, find user from databse and signin
-	// 	Account.findOne({
-	// 		type: req.body.type,
-	// 		userid: req.body.userid,
-	// 		password: req.body.password
-	// 	}, (err, account) => {
-	// 		if (err) {
-	// 			// unknown system or database error, including no such credentials. return 401
-	// 			console.log(err)
-	// 			return res.status(401).send(err.message)
-	// 		} else if (!account) {
-	// 			console.log('Wrong userid or password')
-	// 			return res.status(401).send('Wrong userid or password')
-	// 		} else {
-	// 			// return authentication token
-	// 			console.log(account.userid + ' logged in successfully')
-	// 			return jwt.sign({account}, 'secretkey', {expiresIn : '7d'}, (err, token) => {
-	// 				res.status(200).json({
-	// 					token
-	// 				})
-	// 			})
-	// 		}
-	// 	})
-	// })
-
 	app.post('/api/login/teacher', (req,res)=> {
 		// validate presence of parameters
 		if (!(req.body.userid && req.body.password)) {
@@ -86,6 +54,15 @@ module.exports = (app) => {
 								// return auth token in response
 								return jwt.sign({teacher}, 'secretkey', {expiresIn: '3d'}, (err,token) => {
 									res.status(200).json({
+										id: account.id,
+										name: user.username,
+										contactInfo: user.contactInfo,
+										office: teacher.office,
+										class_id: student.class,
+										courses: student.courses,
+										teacher_model_id: teacher._id,
+										user_model_id: user._id,
+										account_model_id: account._id,
 										token
 									})
 								})
@@ -147,6 +124,15 @@ module.exports = (app) => {
 								// return auth token in response
 								return jwt.sign({student}, 'secretkey', {expiresIn: '3d'}, (err,token) => {
 									res.status(200).json({
+										id: account.id,
+										name: user.username,
+										contactInfo: user.contactInfo,
+										grade: student.grade,
+										class_id: student.class,
+										courses: student.courses,
+										student_model_id: student._id,
+										user_model_id: user._id,
+										account_model_id: account._id,
 										token
 									})
 								})
@@ -208,6 +194,12 @@ module.exports = (app) => {
 								// return auth token in response
 								return jwt.sign({admin}, 'secretkey', {expiresIn: '3d'}, (err,token) => {
 									res.status(200).json({
+										id: account.userid,
+										name: user.username,
+										contactInfo: user.contactInfo,
+										admin_model_id: admin._id,
+										user_model_id: user._id,
+										account_model_id: account._id,
 										token
 									})
 								})

@@ -40,7 +40,7 @@ module.exports = (app) => {
 					username: 'name of ' + req.body.userid
 				})
 
-				user.save((err, new_user) => {
+				user.save((err, user) => {
 					if (err) {
 						console.log(err)
 						return res.status(401).send(err.message)
@@ -53,13 +53,13 @@ module.exports = (app) => {
 							courses: []
 						})
 
-						student.save((err, new_student) => {
+						student.save((err, student) => {
 							if (err) {
 								console.log(err)
 								return res.status(401).send(err.message)
 							} else {
 								console.log ('Student created successfully.')
-								return res.status(200).send(account)
+								return res.status(200).send({account, user, student})
 							}
 						})
 					}
@@ -85,7 +85,7 @@ module.exports = (app) => {
 			type: 'teacher'
 		})
 
-		// save student to database
+		// save teacher to database
 		account.save((err, account) => {
 			if (err) {
 				console.log(err)
@@ -101,7 +101,7 @@ module.exports = (app) => {
 					username: 'name of ' + req.body.userid
 				})
 
-				user.save((err, new_user) => {
+				user.save((err, user) => {
 					if (err) {
 						console.log(err)
 						return res.status(401).send(err.message)
@@ -113,13 +113,13 @@ module.exports = (app) => {
 							courses: []
 						})
 
-						teacher.save((err, new_student) => {
+						teacher.save((err, teacher) => {
 							if (err) {
 								console.log(err)
 								return res.status(401).send(err.message)
 							} else {
 								console.log ('Teacher created successfully.')
-								return res.status(200).send(account)
+								return res.status(200).send(account, user, teacher)
 							}
 						})
 					}
@@ -145,7 +145,7 @@ module.exports = (app) => {
 			type: 'admin'
 		})
 
-		// save student to database
+		// save admin to database
 		account.save((err, account) => {
 			if (err) {
 				console.log(err)
@@ -161,7 +161,7 @@ module.exports = (app) => {
 					username: 'name of ' + req.body.userid
 				})
 
-				user.save((err, new_user) => {
+				user.save((err, user) => {
 					if (err) {
 						console.log(err)
 						return res.status(401).send(err.message)
@@ -172,13 +172,13 @@ module.exports = (app) => {
 							user: user._id, 
 						})
 
-						admin.save((err, new_student) => {
+						admin.save((err, admin) => {
 							if (err) {
 								console.log(err)
 								return res.status(401).send(err.message)
 							} else {
-								console.log ('Student created successfully.')
-								return res.status(200).send(account)
+								console.log ('Admin created successfully.')
+								return res.status(200).send(account, user, admin)
 							}
 						})
 					}

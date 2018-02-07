@@ -1,3 +1,12 @@
+/***********************************/
+/* Creator: Gong                   */
+/* Status: Finished                */
+/* Time: Feb.7,2018                */
+/***********************************/
+
+// library
+const jwt = require('jsonwebtoken')
+
 // FORMAT OF TOKEN: 
 // Authorization: Bearer <access_token>
 // verify token 
@@ -12,6 +21,13 @@ var VerifyToken = (req,res,next) => {
 		const bearerToken = bearer[1]
 		// set the token
 		req.token = bearerToken
+
+		jwt.verify(req.token, 'secretkey', (err, authData) => {
+			if (err) {
+				return res.sendStatus(403).send(err)
+			} 
+		})
+
 		// next middleware
 		next()
 	} else {

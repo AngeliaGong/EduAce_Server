@@ -1,3 +1,9 @@
+/***********************************/
+/* Creator: Gong                   */
+/* Status: Ready for Testing       */
+/* Time: Feb.7,2018                */
+/***********************************/
+
 // library
 const jwt = require('jsonwebtoken')
 
@@ -14,7 +20,7 @@ const Admin = require('../models/Admin')
 module.exports = (app) => {
 	app.post('/api/profile/student', (req,res)=> {
 		// validate presence of parameters
-		if (!(req.body.userid)) {
+		if (!req.body.userid) {
 			return res.status(400).send('Missing parameters.')
 		}
 
@@ -56,10 +62,10 @@ module.exports = (app) => {
 								// Found it!!!
 								console.log(account.userid + ' logged in successfully')
 								// return auth token in response
-								return jwt.sign({student}, 'secretkey', {expiresIn: '3d'}, (err,token) => {
+								return jwt.sign({account}, 'secretkey', {expiresIn: '3d'}, (err,token) => {
 									res.status(200).json({
 										id: account.id,
-										name: user.username,
+										username: user.username,
 										contactInfo: user.contactInfo,
 										grade: student.grade,
 										class_id: student.class,
@@ -77,17 +83,15 @@ module.exports = (app) => {
 
 	})
 
-		app.post('/api/login/teacher', (req,res)=> {
+	app.post('/api/login/teacher', (req,res)=> {
 		// validate presence of parameters
-		if (!(req.body.userid && req.body.password)) {
+		if (!req.body.userid) {
 			return res.status(400).send('Missing parameters.')
 		}
 
 		Account.findOne({
 			// find the account corresponding to the user input
-			userid: req.body.userid,
-			password: req.body.password,
-			type: 'teacher'
+			userid: req.body.userid
 		}, (err, account) => {
 			if (err) {
 				console.log(err)
@@ -123,7 +127,7 @@ module.exports = (app) => {
 								// Found it!!!
 								console.log(account.userid + ' logged in successfully')
 								// return auth token in response
-								return jwt.sign({teacher}, 'secretkey', {expiresIn: '3d'}, (err,token) => {
+								return jwt.sign({account}, 'secretkey', {expiresIn: '3d'}, (err,token) => {
 									res.status(200).json({
 										id: account.id,
 										name: user.username,
@@ -144,17 +148,15 @@ module.exports = (app) => {
 
 	})
 
-		app.post('/api/login/admin', (req,res)=> {
+	app.post('/api/login/admin', (req,res)=> {
 		// validate presence of parameters
-		if (!(req.body.userid && req.body.password)) {
+		if (!(req.body.userid)) {
 			return res.status(400).send('Missing parameters.')
 		}
 
 		Account.findOne({
 			// find the account corresponding to the user input
-			userid: req.body.userid,
-			password: req.body.password,
-			type: 'admin'
+			userid: req.body.userid
 		}, (err, account) => {
 			if (err) {
 				console.log(err)
@@ -190,7 +192,7 @@ module.exports = (app) => {
 								// Found it!!!
 								console.log(account.userid + ' logged in successfully')
 								// return auth token in response
-								return jwt.sign({admin}, 'secretkey', {expiresIn: '3d'}, (err,token) => {
+								return jwt.sign({account}, 'secretkey', {expiresIn: '3d'}, (err,token) => {
 									res.status(200).json({
 										id: account.userid,
 										name: user.username,

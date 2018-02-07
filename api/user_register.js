@@ -1,3 +1,9 @@
+/***********************************/
+/* Creator: Gong                   */
+/* Status: Ready for Testing       */
+/* Time: Feb.7,2018                */
+/***********************************/
+
 // library
 const jwt = require('jsonwebtoken')
 
@@ -15,7 +21,7 @@ module.exports = (app) => {
 	// register requires HTTP post request with json parameters 
 	// userid, password, type (student/teacher/admin), same as login
 	app.post('/api/register/student', VerifyToken, (req, res) => {
-		// requirement reinforcement
+		// request body reinforcement
 		if (!(req.body.userid && req.body.password && req.body.grade)) {
 			return res.status(400).send('Missing parameters.')
 		} else if (req.body.password.length < 7) {
@@ -25,6 +31,19 @@ module.exports = (app) => {
 		} else if (req.body.grade < 0 || req.body.grade > 12) {
 			return res.status(400).send ('Grade must be between 1 and 12')
 		}
+
+		// check if user is logged in as admin
+		var adminAccount
+		jwt.decode('secretkey', req.token, (err, account) => {
+		    if (err) {
+		    	console.log(err.name, err.message)
+		    	return res.status(401).send (err)
+		    } else  if (account.type != 'admin') {
+	    		return res.status(401).send('Unauthorized action. Pleas login as admin.')
+		    } else {
+		    	adminAccount = account
+		    }
+	    })
 
 		// create new account based on request body paramters
 		var account = new Account({
@@ -69,7 +88,7 @@ module.exports = (app) => {
 							} else {
 								console.log ('Student created successfully.')
 
-								return jwt.sign({student}, 'secretkey', {expiresIn: '3d'}, (err,token) => {
+								return jwt.sign({adminAccount}, 'secretkey', {expiresIn: '3d'}, (err,token) => {
 									res.status(200).json({student, user, account, token})
 								})
 							}
@@ -81,7 +100,7 @@ module.exports = (app) => {
 	})
 
 	app.post('/api/register/teacher', VerifyToken, (req, res) => {
-		// requirement reinforcement
+		// request body reinforcement
 		if (!(req.body.userid && req.body.password)) {
 			return res.status(400).send('Missing parameters.')
 		} else if (req.body.password.length < 7) {
@@ -89,6 +108,19 @@ module.exports = (app) => {
 		} else if (req.body.userid.length < 3) {
 			return res.status(400).send ('Username cannot be less than 3 characters.')
 		} 
+
+		// check if user is logged in as admin
+		var adminAccount
+		jwt.decode('secretkey', req.token, (err, account) => {
+		    if (err) {
+		    	console.log(err.name, err.message)
+		    	return res.status(401).send (err)
+		    } else  if (account.type != 'admin') {
+	    		return res.status(401).send('Unauthorized action. Pleas login as admin.')
+		    } else {
+		    	adminAccount = account
+		    }
+	    })
 
 		// create new account based on request body paramters
 		var account = new Account({
@@ -131,7 +163,8 @@ module.exports = (app) => {
 								return res.status(401).send(err.message)
 							} else {
 								console.log ('Teacher created successfully.')
-								return jwt.sign({teacher}, 'secretkey', {expiresIn: '3d'}, (err,token) => {
+								return jwt.sign({adminAccount}, 'secretkey', {expiresIn: '3d'}, 
+									(err,token) => {
 									res.status(200).json({teacher, user, account, token})
 								})
 							}
@@ -142,8 +175,12 @@ module.exports = (app) => {
 		})
 	})
 
+	// Even registering admin requires one to be logged in as admin.
+	// Use the following admin credentials to register other users: 
+	// userid: authtest
+	// password: test123
 	app.post('/api/register/admin', VerifyToken, (req, res) => {
-		// requirement reinforcement
+		// request body reinforcement
 		if (!(req.body.userid && req.body.password)) {
 			return res.status(400).send('Missing parameters.')
 		} else if (req.body.password.length < 7) {
@@ -151,6 +188,19 @@ module.exports = (app) => {
 		} else if (req.body.userid.length < 3) {
 			return res.status(400).send ('Username cannot be less than 3 characters.')
 		} 
+	
+		// check if user is logged in as admin
+		var adminAccount
+		jwt.decode('secretkey', req.token, (err, account) => {
+		    if (err) {
+		    	console.log(err.name, err.message)
+		    	return res.status(401).send (err)
+		    } else  if (account.type != 'admin') {
+	    		return res.status(401).send('Unauthorized action. Pleas login as admin.')
+		    } else {
+		    	adminAccount = account
+		    }
+	    })
 
 		// create new account based on request body paramters
 		var account = new Account({
@@ -192,7 +242,7 @@ module.exports = (app) => {
 								return res.status(401).send(err.message)
 							} else {
 								console.log ('Admin created successfully.')
-								return jwt.sign({admin}, 'secretkey', {expiresIn: '3d'}, (err,token) => {
+								return jwt.sign({adminAccount}, 'secretkey', {expiresIn: '3d'}, (err,token) => {
 									res.status(200).json({admin, user, account, token})
 								})
 							}

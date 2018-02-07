@@ -14,16 +14,17 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {});
 
-// api endpoints
+// API endpoints
 require('./api/root')(app);
 require('./api/authtest')(app);
 
+// user APIs
 require('./api/user_register')(app);
 require('./api/user_login')(app);
 require('./api/user_remove')(app);
 require('./api/user_profile')(app);
-
-
+require('./api/user_update')(app);
+require('./api/user_changePassword')(app);
 
 
 // listen to port

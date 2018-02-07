@@ -1,3 +1,9 @@
+/***********************************/
+/* Creator: Gong                   */
+/* Status: Ready for Testing       */
+/* Time: Feb.7,2018                */
+/***********************************/
+
 // library
 const jwt = require('jsonwebtoken')
 
@@ -13,6 +19,24 @@ const Admin = require('../models/Admin')
 
 module.exports = (app) => {
 	app.post('/api/remove/student', VerifyToken, (req,res)=> {
+		// request body reinforcement
+		if (!req.body.userid ) {
+			return res.status(400).send('Missing parameters.')
+		}
+
+		// check if user is logged in as admin
+		var adminAccount
+		jwt.decode('secretkey', req.token, (err, account) => {
+		    if (err) {
+		    	console.log(err.name, err.message)
+		    	return res.status(401).send (err)
+		    } else  if (account.type != 'admin') {
+	    		return res.status(401).send('Unauthorized action. Pleas login as admin.')
+		    } else {
+		    	adminAccount = account
+		    }
+	    })
+
 		Account.findOneAndRemove({
 			// find and remove the account corresponding to the user input
 			userid: req.body.userid,
@@ -51,7 +75,7 @@ module.exports = (app) => {
 								return res.status(401).send('Student not found.')
 							} else {
 								console.log('Student found and removed.')
-								return jwt.sign({student}, 'secretkey', {expiresIn: '3d'}, (err,token) => {
+								return jwt.sign({adminAccount}, 'secretkey', {expiresIn: '3d'}, (err,token) => {
 									res.status(200).json({student, user, account, token})
 								})
 							}
@@ -65,6 +89,24 @@ module.exports = (app) => {
 	})
 
 	app.post('/api/remove/teacher', VerifyToken, (req,res)=> {
+		// request body reinforcement
+		if (!req.body.userid ) {
+			return res.status(400).send('Missing parameters.')
+		}
+
+		// check if user is logged in as admin
+		var adminAccount
+		jwt.decode('secretkey', req.token, (err, account) => {
+		    if (err) {
+		    	console.log(err.name, err.message)
+		    	return res.status(401).send (err)
+		    } else  if (account.type != 'admin') {
+	    		return res.status(401).send('Unauthorized action. Pleas login as admin.')
+		    } else {
+		    	adminAccount = account
+		    }
+	    })
+
 		Account.findOneAndRemove({
 			// find and remove the account corresponding to the user input
 			userid: req.body.userid,
@@ -103,7 +145,7 @@ module.exports = (app) => {
 								return res.status(401).send('Teacher not found.')
 							} else {
 								console.log('Teacher found and removed.')
-								return jwt.sign({teacher}, 'secretkey', {expiresIn: '3d'}, (err,token) => {
+								return jwt.sign({adminAccount}, 'secretkey', {expiresIn: '3d'}, (err,token) => {
 									res.status(200).json({teacher, user, account, token})
 								})
 							}
@@ -116,7 +158,25 @@ module.exports = (app) => {
 
 	})
 
-		app.post('/api/remove/admin', VerifyToken, (req,res)=> {
+	app.post('/api/remove/admin', VerifyToken, (req,res)=> {
+		// request body reinforcement
+		if (!req.body.userid ) {
+			return res.status(400).send('Missing parameters.')
+		}
+
+		// check if user is logged in as admin
+		var adminAccount
+		jwt.decode('secretkey', req.token, (err, account) => {
+		    if (err) {
+		    	console.log(err.name, err.message)
+		    	return res.status(401).send (err)
+		    } else  if (account.type != 'admin') {
+	    		return res.status(401).send('Unauthorized action. Pleas login as admin.')
+		    } else {
+		    	adminAccount = account
+		    }
+	    })
+
 		Account.findOneAndRemove({
 			// find and remove the account corresponding to the user input
 			userid: req.body.userid,
@@ -155,7 +215,7 @@ module.exports = (app) => {
 								return res.status(401).send('Admin not found.')
 							} else {
 								console.log('Admin found and removed')
-								return jwt.sign({admin}, 'secretkey', {expiresIn: '3d'}, (err,token) => {
+								return jwt.sign({adminAccount}, 'secretkey', {expiresIn: '3d'}, (err,token) => {
 									res.status(200).json({admin, user, account, token})
 								})
 							}

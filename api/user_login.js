@@ -1,3 +1,9 @@
+/***********************************/
+/* Creator: Gong                   */
+/* Status: Finished                */
+/* Time: Feb.7,2018                */
+/***********************************/
+
 // library
 const jwt = require('jsonwebtoken')
 
@@ -55,7 +61,7 @@ module.exports = (app) => {
 								// Found it!!!
 								console.log(account.userid + ' logged in successfully')
 								// return auth token in response
-								return jwt.sign({student}, 'secretkey', {expiresIn: '3d'}, (err,token) => {
+								return jwt.sign({account}, 'secretkey', {expiresIn: '3d'}, (err,token) => {
 									res.status(200).json({
 										id: account.id,
 										password: account.password,
@@ -79,6 +85,7 @@ module.exports = (app) => {
 		})
 
 	})
+
 
 	app.post('/api/login/teacher', (req,res)=> {
 		// validate presence of parameters
@@ -126,16 +133,16 @@ module.exports = (app) => {
 								// Found it!!!
 								console.log(account.userid + ' logged in successfully')
 								// return auth token in response
-								return jwt.sign({teacher}, 'secretkey', {expiresIn: '3d'}, (err,token) => {
+								return jwt.sign({account}, 'secretkey', {expiresIn: '3d'}, (err,token) => {
 									res.status(200).json({
 										id: account.id,
 										password: account.password,
 										name: user.username,
 										contactInfo: user.contactInfo,
 										office: teacher.office,
-										class_id: student.class,
-										courses: student.courses,
-										teacher_model_id: teacher._id,
+										class_id: teacher.class,
+										courses: teacher.courses,
+										teacher: teacher._id,
 										user_model_id: user._id,
 										account_model_id: account._id,
 										token
@@ -197,7 +204,7 @@ module.exports = (app) => {
 								// Found it!!!
 								console.log(account.userid + ' logged in successfully')
 								// return auth token in response
-								return jwt.sign({admin}, 'secretkey', {expiresIn: '3d'}, (err,token) => {
+								return jwt.sign({account}, 'secretkey', {expiresIn: '3d'}, (err,token) => {
 									res.status(200).json({
 										id: account.userid,
 										password: account.password,

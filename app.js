@@ -16,10 +16,15 @@ db.once('open', function() {});
 
 // api endpoints
 require('./api/root')(app);
-require('./api/register')(app);
-require('./api/login')(app);
 require('./api/authtest')(app);
-require('./api/remove_user')(app);
+
+require('./api/user_register')(app);
+require('./api/user_login')(app);
+require('./api/user_remove')(app);
+require('./api/user_profile')(app);
+
+
+
 
 // listen to port
 var port = process.env.PORT || 8080;

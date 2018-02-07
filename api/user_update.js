@@ -1,12 +1,85 @@
+// library
+const jwt = require('jsonwebtoken')
+
+// module functions
+const VerifyToken = require('./VerifyToken')
+
+// models
 const Account = require('../models/Account')
 const User = require('../models/User')
 const Student = require('../models/Student')
 const Teacher = require('../models/Teacher')
 const Admin = require('../models/Admin')
-const jwt = require('jsonwebtoken')
 
 module.exports = (app) => {
-	app.post('/api/login/teacher', (req,res)=> {
+	app.post('/api/profile/student', (req,res)=> {
+		// validate presence of parameters
+		if (!(req.body.userid)) {
+			return res.status(400).send('Missing parameters.')
+		}
+
+		Account.findOne({
+			// find the account corresponding to the user input
+			userid: req.body.userid,
+		}, (err, account) => {
+			if (err) {
+				console.log(err)
+				return res.status(401).send(err.message)
+			} else if (!account) {
+				console.log('Cannot find account.')
+				return res.status(401).send('Cannot find account.')
+			} else {
+				// Found the account!!!
+				console.log('Account is found.')
+
+				// now find the user who has this account
+				User.findOne({
+					account: account._id
+				}, (err, user) => {
+					if (err) {
+						console.log(err)
+						return res.status(401).send(err.message)
+					} else if (!user) {
+						console.log('Cannot find user.')
+						return res.status(401).send('Cannot find user.')
+					} else {
+						// Found the user!!!
+						// now find the student who is this user
+						Student.findOne({
+							user: user._id
+						}, (err, student) => {
+							if (err) {
+								console.log(err)
+								return res.status(401).send(err.message)
+							} else if (!student) {
+								console.log('Cannot find user.')
+								return res.status(401).send('Cannot find user.')
+							} else {
+								// Found it!!!
+								console.log(account.userid + ' logged in successfully')
+								// return auth token in response
+								return jwt.sign({student}, 'secretkey', {expiresIn: '3d'}, (err,token) => {
+									res.status(200).json({
+										id: account.id,
+										name: user.username,
+										contactInfo: user.contactInfo,
+										grade: student.grade,
+										class_id: student.class,
+										courses: student.courses,
+										token
+									})
+								})
+							}
+						})
+					}
+				})
+			}
+
+		})
+
+	})
+
+		app.post('/api/login/teacher', (req,res)=> {
 		// validate presence of parameters
 		if (!(req.body.userid && req.body.password)) {
 			return res.status(400).send('Missing parameters.')
@@ -60,9 +133,6 @@ module.exports = (app) => {
 										office: teacher.office,
 										class_id: student.class,
 										courses: student.courses,
-										teacher_model_id: teacher._id,
-										user_model_id: user._id,
-										account_model_id: account._id,
 										token
 									})
 								})
@@ -76,77 +146,7 @@ module.exports = (app) => {
 
 	})
 
-	app.post('/api/login/student', (req,res)=> {
-		// validate presence of parameters
-		if (!(req.body.userid && req.body.password)) {
-			return res.status(400).send('Missing parameters.')
-		}
-
-		Account.findOne({
-			// find the account corresponding to the user input
-			userid: req.body.userid,
-			password: req.body.password,
-			type: 'student'
-		}, (err, account) => {
-			if (err) {
-				console.log(err)
-				return res.status(401).send(err.message)
-			} else if (!account) {
-				console.log('Cannot find account.')
-				return res.status(401).send('Cannot find account.')
-			} else {
-				// Found the account!!!
-				// now find the user who has this account
-				User.findOne({
-					account: account._id
-				}, (err, user) => {
-					if (err) {
-						console.log(err)
-						return res.status(401).send(err.message)
-					} else if (!user) {
-						console.log('Cannot find user.')
-						return res.status(401).send('Cannot find user.')
-					} else {
-						// Found the user!!!
-						// now find the student who is this user
-						Student.findOne({
-							user: user._id
-						}, (err, student) => {
-							if (err) {
-								console.log(err)
-								return res.status(401).send(err.message)
-							} else if (!student) {
-								console.log('Cannot find user.')
-								return res.status(401).send('Cannot find user.')
-							} else {
-								// Found it!!!
-								console.log(account.userid + ' logged in successfully')
-								// return auth token in response
-								return jwt.sign({student}, 'secretkey', {expiresIn: '3d'}, (err,token) => {
-									res.status(200).json({
-										id: account.id,
-										name: user.username,
-										contactInfo: user.contactInfo,
-										grade: student.grade,
-										class_id: student.class,
-										courses: student.courses,
-										student_model_id: student._id,
-										user_model_id: user._id,
-										account_model_id: account._id,
-										token
-									})
-								})
-							}
-						})
-					}
-				})
-			}
-
-		})
-
-	})
-
-	app.post('/api/login/admin', (req,res)=> {
+		app.post('/api/login/admin', (req,res)=> {
 		// validate presence of parameters
 		if (!(req.body.userid && req.body.password)) {
 			return res.status(400).send('Missing parameters.')
@@ -197,9 +197,6 @@ module.exports = (app) => {
 										id: account.userid,
 										name: user.username,
 										contactInfo: user.contactInfo,
-										admin_model_id: admin._id,
-										user_model_id: user._id,
-										account_model_id: account._id,
 										token
 									})
 								})

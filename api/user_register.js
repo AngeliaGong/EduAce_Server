@@ -1,14 +1,20 @@
+// library
+const jwt = require('jsonwebtoken')
+
+// module functions
+const VerifyToken = require('./VerifyToken')
+
+// models
 const Account = require('../models/Account')
 const User = require('../models/User')
 const Student = require('../models/Student')
 const Teacher = require('../models/Teacher')
 const Admin = require('../models/Admin')
-const jwt = require('jsonwebtoken')
 
 module.exports = (app) => {
 	// register requires HTTP post request with json parameters 
 	// userid, password, type (student/teacher/admin), same as login
-	app.post('/api/register/student', (req, res) => {
+	app.post('/api/register/student', VerifyToken, (req, res) => {
 		// requirement reinforcement
 		if (!(req.body.userid && req.body.password && req.body.grade)) {
 			return res.status(400).send('Missing parameters.')
@@ -34,7 +40,7 @@ module.exports = (app) => {
 				return res.status(401).send(err.message)
 			} else if (!account) {
 				console.log('Account is not saved successfully')
-				return res.status(401).send('User is not saved successfully')
+				return res.status(401).send('Account is not saved successfully')
 			} else {
 				console.log(account.userid + ' student account created successfully.')
 
@@ -74,7 +80,7 @@ module.exports = (app) => {
 		})
 	})
 
-	app.post('/api/register/teacher', (req, res) => {
+	app.post('/api/register/teacher', VerifyToken, (req, res) => {
 		// requirement reinforcement
 		if (!(req.body.userid && req.body.password)) {
 			return res.status(400).send('Missing parameters.')
@@ -136,7 +142,7 @@ module.exports = (app) => {
 		})
 	})
 
-	app.post('/api/register/admin', (req, res) => {
+	app.post('/api/register/admin', VerifyToken, (req, res) => {
 		// requirement reinforcement
 		if (!(req.body.userid && req.body.password)) {
 			return res.status(400).send('Missing parameters.')

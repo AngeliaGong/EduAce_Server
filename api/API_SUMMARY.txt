@@ -2,6 +2,8 @@
 
 POST: https://eduace.herokuapp.com/api/register/student
 request body (JSON): 
+request header:
+	Authorization: Bearer <token>
 {
 	"userid": "...",
 	"password": "..."
@@ -9,6 +11,8 @@ request body (JSON):
 }
 
 POST: https://eduace.herokuapp.com/api/register/teacher
+request header:
+	Authorization: Bearer <token>
 request body (JSON):
 {
 	"userid": "..."
@@ -16,6 +20,8 @@ request body (JSON):
 }
 
 POST: https://eduace.herokuapp.com/api/register/admin
+request header:
+	Authorization: Bearer <token>
 request body (JSON):
 {
 	"userid": "..."

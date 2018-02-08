@@ -151,3 +151,69 @@ request header:
 request body:
 <EMPTY>
 
+
+===================== COURSE ======================
+Eight APIs included.
+		==== CREATE ====
+POST: /api/course/create
+request body (JSON): 
+{
+	token: "...",
+	coursename: "...",
+	teacher_id: "...",
+	schedule: [...]
+}
+
+		==== DELETE ====
+POST: /api/course/delete
+request body (JSON): 
+{
+	token: "...",
+	course_id: "..."
+}
+
+	==== ANNOUNCE ====
+POST: /api/course/announce
+request body (JSON): 
+{
+	token: "...",
+	course_id: "...",
+	announcement: [...]
+}
+
+	==== DELETE_ANNOUNCEMENT ====
+POST: /api/course/delete_announcement
+request body (JSON): 
+{
+	token: "...",
+	course_id: "...",
+	announcement_id: "..."
+}
+
+;unrealized
+		==== EDIT ====
+POST: /api/course/edit
+
+;unrealized
+	==== QUESTION ====
+POST: /api/course/question
+request body (JSON): 
+{
+	token: "...",
+	course_id: "...",
+	question_title: "...",
+	question_content: "..."
+}
+
+;unrealized
+	==== DELETE_QUESTION ====
+POST: /api/course/delete_question
+request body (JSON): 
+{
+	token: "...",
+	question_id: "..."
+}
+
+;unrealized
+	==== ASK_QUESTION ====
+POST: /api/course/ask_question

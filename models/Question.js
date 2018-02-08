@@ -9,10 +9,10 @@ var QuestionSchema = new mongoose.Schema({
   content: {
     type: String,
     required: true
-  }
+  },
   askedby: {
   	type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
+    ref: 'User',
     required: true
   },
   answers: [{

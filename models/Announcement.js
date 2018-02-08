@@ -5,7 +5,7 @@ var AnnouncementSchema = new mongoose.Schema({ // 班级
     type: String,
     required: true,
     trim: true
-  }
+  },
   content: {
     type: String,
     required: true,
@@ -14,7 +14,7 @@ var AnnouncementSchema = new mongoose.Schema({ // 班级
   isPublic: {
     type: Boolean,
     default: true
-  }
+  },
   madeby: {
   	type: mongoose.Schema.Types.ObjectId,
     ref: 'Teacher'

@@ -25,6 +25,7 @@ require('./api/user_remove')(app);
 require('./api/user_profile')(app);
 require('./api/user_update')(app);
 require('./api/user_changePassword')(app);
+require('./api/course')(app);
 
 
 // listen to port

@@ -8,7 +8,7 @@ var CourseSchema = new mongoose.Schema({ // 班级
   },
   teacher: { // 班主任
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Teacher'
+    ref: 'Teacher',
     required: true
   },
   schedule: [{
@@ -26,7 +26,7 @@ var CourseSchema = new mongoose.Schema({ // 班级
     },
     startMinute: {
       type: Number,
-      default: 0
+      default: 0,
       min: 0,
       max: 59
     },
@@ -38,7 +38,7 @@ var CourseSchema = new mongoose.Schema({ // 班级
     },
     endtMinute: {
       type: Number,
-      default: 0
+      default: 0,
       min: 0,
       max: 59
     },
@@ -46,7 +46,7 @@ var CourseSchema = new mongoose.Schema({ // 班级
   announcements: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Announcement'
-  }]
+  }],
   questions: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Question'

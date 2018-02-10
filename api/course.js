@@ -4,6 +4,7 @@ const Teacher = require('../models/Teacher')
 const Course = require('../models/Course')
 const Announcement = require('../models/Announcement')
 const Question = require('../models/Question')
+const Answer = require('../models/Answer')
 const jwt = require('jsonwebtoken')
 
 
@@ -167,7 +168,7 @@ module.exports = (app) => {
                             return jwt.sign({account}, 'secretkey', {expiresIn: '3d'}, (err,tok) => {
                                 res.status(200).json({
                                     token: tok,
-                                    announcement: course.announcement
+                                    announcement: req.body.announcement
                                 })
                             })
                         }
@@ -241,4 +242,119 @@ module.exports = (app) => {
             })
         })
     })
+
+    app.post('/api/course/question', (req, res) => {
+        if(!(req.body.token && req.body.course_id 
+            && req.body.question_title && req.body.question_content)) {
+                return res.status(400).send('Missing parameters.')
+            }
+            jwt.verify(req.body.token, 'secretkey', (err, decoded) => {
+                if(err) {
+                    return res.status(401).send(err.message)
+                }
+                account = decoded.account
+                Course.findById(req.body.course_id, (err, course) => {
+                    if (err) {
+                        console.log(err)
+                        return res.status(401).send(err.message)
+                    } else if(!course) {
+                        console.log('Cannot find course.')
+                    return res.status(401).send('Cannot find course.')
+                    } else {
+                        console.log('Course found.')
+                        
+                        var que = new Question({
+                            title: req.body.title,
+                            content: req.body.content,
+                            askedby: null,
+                            answers: []
+                        })
+                        que.save((err, que) => {
+                            if(err) {
+                                console.log('Some exceptions raised.')
+                            } else {
+                                course.questions.push(que.id)
+                            }
+                        })
+    
+                        course.save((err, course) => {
+                            if(err) {
+                                console.log(err)
+                                return res.status(401).send(err.message)
+                            } else if(!course) {
+                                console.log('Save course failed.')
+                                return res.status(401).send('Save course failed.')
+                            } else {
+                                return jwt.sign({account}, 'secretkey', {expiresIn: '3d'}, (err,tok) => {
+                                    res.status(200).json({
+                                        token: tok,
+                                        question: que
+                                    })
+                                })
+                            }
+                        })
+                    }
+                })
+            })
+    })
+
+    app.post('/api/course/submit_answer', (req, res) => {
+        if(!(req.body.token && req.body.course_id 
+            && req.body.answer_content)) {
+                return res.status(400).send('Missing parameters.')
+            }
+        jwt.verify(req.body.token, 'secretkey', (err, decoded) => {
+            if(err) {
+                return res.status(401).send(err.message)
+            }
+            User.findOne({
+                account: decoded.account._id
+            }, (err, user) => {
+                if (err) {
+                    console.log(err)
+                    return res.status(401).send(err.message)
+                } else if (!user) {
+                    console.log('Cannot find user.')
+                    return res.status(404).send('Cannot find user.')
+                } else {
+                    var answer = new Answer({
+                        madeby: user._id,
+                        content: req.body.answer_content
+                    })
+                    answer.save((err, answer) => {
+                        if(err) {
+                            if(err) {
+                                console.log('Some exceptions raised.')
+                            } else {
+                                Course.findById(req.body.course_id, (err, course) => {
+                                    if (err) {
+                                        console.log(err)
+                                        return res.status(401).send(err.message)
+                                    } else if(!course) {
+                                        console.log('Cannot find course.')
+                                    return res.status(401).send('Cannot find course.')
+                                    } else {
+                                        course.answers.push(answer._id)
+                                        course.save((err, course) => {
+                                            if(err) {
+                                                console.log(err)
+                                                return res.status(401).send(err.message)
+                                            } else {
+                                                return jwt.sign({account}, 'secretkey', {expiresIn: '3d'}, (err,tok) => {
+                                                    res.status(200).json({
+                                                        token: tok
+                                                    })
+                                                })
+                                            }
+                                        })
+                                    }
+                                })
+                            }
+                        }
+                    })
+                }
+            })
+        })
+    })
+
 }

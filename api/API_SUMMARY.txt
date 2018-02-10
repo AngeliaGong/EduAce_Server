@@ -194,7 +194,6 @@ request body (JSON):
 		==== EDIT ====
 POST: /api/course/edit
 
-;unrealized
 	==== QUESTION ====
 POST: /api/course/question
 request body (JSON): 
@@ -214,6 +213,11 @@ request body (JSON):
 	question_id: "..."
 }
 
-;unrealized
-	==== ASK_QUESTION ====
-POST: /api/course/ask_question
+	==== SUBMIT_ANSWER ====
+POST: /api/course/submit_answer
+request body (JSON): 
+{
+	token: "...",
+	question_id: "...",
+	content: "..."
+}

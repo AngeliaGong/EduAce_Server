@@ -18,7 +18,13 @@ var QuestionSchema = new mongoose.Schema({
   answers: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Answer'
-  }]
+  }],
+  questioner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  }
+
 }, {timestamps: true});
 
 

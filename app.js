@@ -25,7 +25,13 @@ require('./api/user_remove')(app);
 require('./api/user_profile')(app);
 require('./api/user_update')(app);
 require('./api/user_changePassword')(app);
-require('./api/course')(app);
+require('./api/course_create')(app);
+require('./api/course_changed')(app);
+require('./api/course_delete')(app);
+require('./api/announce_add')(app);
+require('./api/announce_delete')(app);
+require('./api/question_add')(app);
+require('./api/question_edit')(app);
 
 
 // listen to port

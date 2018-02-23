@@ -223,7 +223,6 @@ request body (JSON):
 	question_content: "..."
 }
 
-;unfinished
 =================== QUESTION_DELETE ===================
 POST: /api/question/delete
 request body (JSON): 

@@ -87,6 +87,7 @@ module.exports = (app) => {
                                         break
                                     }
                                 }
+                                return res.status(404).send('Question not found.')
                             }
                         })
                     }

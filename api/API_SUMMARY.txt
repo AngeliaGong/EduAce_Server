@@ -231,3 +231,30 @@ request body (JSON):
 	course_id: "...",
 	question_id: "..."
 }
+
+=================== ANSWER_COMMIT ===================
+POST: /api/answer/commit
+request body (JSON):
+{
+	token: "...",
+	question_id: "...",
+	content: "..."
+}
+
+=================== ANSWER_EDIT ===================
+POST: /api/answer/edit
+request body (JSON):
+{
+	token: "...",
+	answer_id: "...",
+	content: "..."
+}
+
+=================== ANSWER_DELETE ===================
+POST: /api/answer/edit
+request body (JSON):
+{
+	token: "...",
+	question_id: "...",
+	answer_id: "..."
+}

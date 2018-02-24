@@ -62,8 +62,8 @@ module.exports = (app) => {
                                 })
                                 break
                             }
-                        
                     }
+                    return res.status(401).send('Announce not found.')
                 }
             })
         })

@@ -26,12 +26,16 @@ require('./api/user_profile')(app);
 require('./api/user_update')(app);
 require('./api/user_changePassword')(app);
 require('./api/course_create')(app);
-require('./api/course_changed')(app);
+require('./api/course_change')(app);
 require('./api/course_delete')(app);
 require('./api/announce_add')(app);
 require('./api/announce_delete')(app);
 require('./api/question_add')(app);
 require('./api/question_edit')(app);
+require('./api/question_delete')(app);
+require('./api/answer_commit')(app);
+require('./api/answer_edit')(app);
+require('./api/answer_delete')(app);
 
 
 // listen to port

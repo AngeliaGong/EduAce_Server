@@ -47,9 +47,8 @@ module.exports = (app) => {
                                 var que = new Question({
                                     title: req.body.title,
                                     content: req.body.content,
-                                    askedby: null,
+                                    askedby: user._id,
                                     answers: [],
-                                    questioner: user._id
                                 })
                                 que.save((err, que) => {
                                     if(err) {

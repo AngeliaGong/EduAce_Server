@@ -45,7 +45,7 @@ module.exports = (app) => {
                                 return res.status(404).send('Cannot find question.')
                             } else {
                                 if(account.type !== 'admin'
-                                || user._id !== question.questioner) {
+                                || user._id !== question.askedby) {
                                     return res.status(401).send('Deny')
                                 }
 

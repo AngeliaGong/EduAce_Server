@@ -47,7 +47,7 @@ module.exports = (app) => {
                                                 return res.status(404).send('Cannot find question.')
                                             } else {
                                                 if(account.type === 'admin'
-                                                || User._id === questioner._id
+                                                || User._id === question.askedby
                                                 || (account.type === 'teacher' 
                                                     && ((user_id) => {
                                                         Teacher.findOne({

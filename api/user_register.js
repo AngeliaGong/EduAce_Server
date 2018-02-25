@@ -63,10 +63,19 @@ module.exports = (app) => {
 			} else {
 				console.log(account.userid + ' student account created successfully.')
 
-				var user = new User({
-					account: account._id,
-					username: 'name of ' + req.body.userid
-				})
+				var user;
+				if (req.body.username) {
+					user = new User({
+						account: account._id,
+						username: req.body.username
+					})
+				} else {
+					user = new User({
+						account: account._id,
+						username: req.body.userid
+					})
+				}
+				
 
 				user.save((err, user) => {
 					if (err) {

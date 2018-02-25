@@ -30,7 +30,7 @@ module.exports = (app) => {
 		    if (err) {
 		    	console.log(err.name, err.message)
 		    	return res.status(401).send (err)
-		    } else  if (account.id != req.body.id || account.type != 'admin') {
+		    } else  if (account.id != req.body.id && account.type != 'admin') {
 	    		return res.status(401).send('Unauthorized action. Pleas login as appropriate user.')
 		    } else {
 		    	loginAccount = account

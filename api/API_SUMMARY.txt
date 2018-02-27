@@ -153,9 +153,12 @@ request body:
 
 =================== COURSE_CREATE ===================
 POST: /api/course/create
+request headers (JSON):
+{
+	token: "..."
+}
 request body (JSON): 
 {
-	token: "...",
 	coursename: "...",
 	teacher_id: "...",
 	schedule: [...]
@@ -163,17 +166,23 @@ request body (JSON):
 
 =================== COURSE_DELETE ===================
 POST: /api/course/delete
+request headers (JSON):
+{
+	token: "..."
+}
 request body (JSON): 
 {
-	token: "...",
 	course_id: "..."
 }
 
 =================== COURSE_CHANGE ===================
 * To change coursename, teacher, schedule
+request headers (JSON):
+{
+	token: "..."
+}
 request body (JSON): 
 {
-	token: "...",
 	course_id: "...",
 	coursename: "...",
 	teacher_id: "...",
@@ -182,9 +191,12 @@ request body (JSON):
 
 =================== ANNOUNCE_ADD ===================
 POST: /api/announce/add
+request headers (JSON):
+{
+	token: "..."
+}
 request body (JSON): 
 {
-	token: "...",
 	course_id: "...",
 	announcement: {
 		title: "...",
@@ -196,18 +208,24 @@ request body (JSON):
 
 ================== ANNOUNCE_DELETE ==================
 POST: /api/announce/delete
+request headers (JSON):
+{
+	token: "..."
+}
 request body (JSON): 
 {
-	token: "...",
 	course_id: "...",
 	announcement_id: "..."
 }
 
 =================== QUESTION_ADD ===================
 POST: /api/question/add
+request headers (JSON):
+{
+	token: "..."
+}
 request body (JSON): 
 {
-	token: "...",
 	course_id: "...",
 	question_title: "...",
 	question_content: "..."
@@ -215,9 +233,12 @@ request body (JSON):
 
 =================== QUESTION_EDIT ===================
 POST: /api/question/edit
+request headers (JSON):
+{
+	token: "..."
+}
 request body (JSON): 
 {
-	token: "...",
 	question_id: "...",
 	question_title: "...",
 	question_content: "..."
@@ -225,36 +246,48 @@ request body (JSON):
 
 =================== QUESTION_DELETE ===================
 POST: /api/question/delete
+request headers (JSON):
+{
+	token: "..."
+}
 request body (JSON): 
 {
-	token: "...",
 	course_id: "...",
 	question_id: "..."
 }
 
 =================== ANSWER_COMMIT ===================
 POST: /api/answer/commit
+request headers (JSON):
+{
+	token: "..."
+}
 request body (JSON):
 {
-	token: "...",
 	question_id: "...",
 	content: "..."
 }
 
 =================== ANSWER_EDIT ===================
 POST: /api/answer/edit
+request headers (JSON):
+{
+	token: "..."
+}
 request body (JSON):
 {
-	token: "...",
 	answer_id: "...",
 	content: "..."
 }
 
 =================== ANSWER_DELETE ===================
 POST: /api/answer/edit
+request headers (JSON):
+{
+	token: "..."
+}
 request body (JSON):
 {
-	token: "...",
 	question_id: "...",
 	answer_id: "..."
 }

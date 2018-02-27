@@ -2,19 +2,13 @@ const Course = require('../models/Course')
 const jwt = require('jsonwebtoken')
 
 module.exports = (app) => {
-    /*
-        request body (JSON): 
-        {
-            token: "...",
-            course_id: "..."
-        }
-    */
+
     app.post('/api/course/delete', (req, res) => {
-        if(!(req.body.token && req.body.course_id)) {
+        if(!(req.header.token && req.body.course_id)) {
             return res.status(400).send('Missing parameters.')
         }
 
-        jwt.verify(req.body.token, 'secretkey', (err, decoded) => {
+        jwt.verify(req.header.token, 'secretkey', (err, decoded) => {
             if(err) {
                 return res.status(401).send(err.message)
             }

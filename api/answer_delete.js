@@ -7,11 +7,11 @@ const jwt = require('jsonwebtoken')
 module.exports = (app) => {
 
     app.post('/api/answer/delete', (req, res) => {
-        if(!(req.body.token && req.body.question_id 
+        if(!(req.headers.token && req.body.question_id 
             && req.body.answer_id)) {
                 return res.status(400).send('Missing parameters.')
             }
-            jwt.verify(req.body.token, 'secretkey', (err, decoded) => {
+            jwt.verify(req.headers.token, 'secretkey', (err, decoded) => {
                 if(err) {
                     return res.status(401).send(err.message)
                 }

@@ -5,21 +5,13 @@ const jwt = require('jsonwebtoken')
 
 
 module.exports = (app) => {
-    /*
-        request body (JSON):
-        {
-            token: "...",
-            course_id: "...",
-            question_title: "...",
-            question_content: "..."
-        }
-    */
+
     app.post('/api/question/add', (req, res) => {
-        if(!(req.body.token && req.body.course_id 
+        if(!(req.headers.token && req.body.course_id 
             && req.body.question_title && req.body.question_content)) {
                 return res.status(400).send('Missing parameters.')
             }
-            jwt.verify(req.body.token, 'secretkey', (err, decoded) => {
+            jwt.verify(req.headers.token, 'secretkey', (err, decoded) => {
                 if(err) {
                     return res.status(401).send(err.message)
                 }
